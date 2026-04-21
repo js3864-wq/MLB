@@ -1,0 +1,16 @@
+supplier_filters:
+  min_orders: 100
+  min_rating: 4.5
+  min_stock: 50
+
+pipeline:
+  trend_category_count: 10
+  products_per_category: 20
+  # Step 5: batch up to N products per Claude call to save tokens.
+  recommendation_batch_size: 10
+
+scoring:
+  # platform_fee = sell_price * platform_fee_rate
+  platform_fee_rate: 0.15
+  # return proxy applied to sell_price
+  return_rate: 0.02
