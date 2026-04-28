@@ -1,6 +1,7 @@
 # Demo data for the dashboard. Edit and POST /run-pipeline to refresh.
 #
-# `trends`: category names (replaces Google Trends + LLM)
+# `trends_queries`: raw Google Trends rising queries (logged in Step 1, narration only)
+# `trends`: category names the LLM "clusters" the queries into
 # `products`: hand-curated CJ-style results. Each `category` must match
 # one of the trends above. `cj_product_id` is the unique key.
 #
@@ -12,6 +13,19 @@
 # Override the verdict on a specific product by adding
 #   recommendation: PURSUE | MONITOR | AVOID
 #   explanation: "your custom reason"
+
+trends_queries:
+  - lumbar pillow office chair
+  - best lumbar support wfh
+  - back pain working from home
+  - portable blender usb
+  - smoothie blender travel
+  - dog grooming glove shedding
+  - cat hair removal mitt
+  - magnetic phone holder car
+  - dashboard phone mount
+  - posture corrector brace adults
+  - back straightener device
 
 trends:
   - ergonomic lumbar cushion
