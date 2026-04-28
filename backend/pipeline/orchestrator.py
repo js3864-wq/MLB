@@ -11,7 +11,7 @@ import os
 from datetime import date
 from typing import Any
 
-from . import step1_trends, step4_enrich, step5_recommend, storage
+from . import demo_loader, step1_trends, step4_enrich, step5_recommend, storage
 from .step2_config import Config, load_config
 
 log = logging.getLogger(__name__)
@@ -39,7 +39,11 @@ async def run_pipeline(run_date: date | None = None) -> dict[str, Any]:
     run_date = run_date or date.today()
     cfg: Config = load_config()
     mock = storage.mock_mode()
-    log.info("Starting pipeline run_date=%s mock=%s", run_date, mock)
+    demo = demo_loader.demo_mode()
+    log.info("Starting pipeline run_date=%s mock=%s demo=%s", run_date, mock, demo)
+
+    if demo:
+        return await _run_demo(run_date, cfg)
 
     # --- Step 1 -------------------------------------------------------
     if mock:
@@ -110,4 +114,50 @@ async def run_pipeline(run_date: date | None = None) -> dict[str, Any]:
         "categories": len(saved_cats),
         "products": len(saved_products),
         "mock_mode": mock,
+    }
+
+
+async def _run_demo(run_date: date, cfg: Config) -> dict[str, Any]:
+    """DEMO_MODE pipeline — fully offline, hand-curated inputs.
+
+    Skips Step 1 (pytrends + LLM) and Step 3 (CJ search). Step 4 (margin math)
+    and Step 5 (rules-based recommendation, no LLM) still run, so the dashboard
+    shows numbers and verdicts derived from `backend/demo_input.yaml`.
+    """
+    trends, demo_products = demo_loader.load_demo_input()
+    trends = trends[: cfg.pipeline.trend_category_count or len(trends)]
+
+    # Demo runs are deterministic — clear any prior mock data so the dashboard
+    # shows exactly what's in demo_input.yaml, not stale rows from earlier runs.
+    storage.clear_mock_data()
+
+    saved_cats = storage.upsert_trend_categories(trends, run_date)
+    cat_id_by_name = {c["name"]: c["id"] for c in saved_cats}
+    log.info("Demo Step 1: %d categories from demo_input.yaml", len(saved_cats))
+
+    enriched: list[dict[str, Any]] = []
+    for dp in demo_products:
+        cat_id = cat_id_by_name.get(dp.category)
+        row = {
+            **dp.candidate.to_dict(),
+            **step4_enrich.enrich(dp.candidate, cfg.scoring),
+            "category_id": cat_id,
+        }
+        if dp.recommendation_override:
+            row["recommendation"] = dp.recommendation_override
+        if dp.explanation_override:
+            row["explanation"] = dp.explanation_override
+        enriched.append(row)
+    log.info("Demo Step 4: enriched %d products", len(enriched))
+
+    recommended = step5_recommend.recommend_rule_based(enriched)
+    log.info("Demo Step 5: rules-based recommendations applied (no LLM)")
+
+    saved_products = storage.upsert_products(recommended, run_date)
+    return {
+        "run_date": run_date.isoformat(),
+        "categories": len(saved_cats),
+        "products": len(saved_products),
+        "demo_mode": True,
+        "mock_mode": True,
     }

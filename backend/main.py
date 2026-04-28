@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-from .pipeline import storage  # noqa: E402
+from .pipeline import demo_loader, storage  # noqa: E402
 from .pipeline.orchestrator import run_pipeline  # noqa: E402
 
 logging.basicConfig(level=logging.INFO)
@@ -56,7 +56,11 @@ app.add_middleware(
 
 @app.get("/health")
 async def health() -> dict[str, Any]:
-    return {"ok": True, "mock_mode": storage.mock_mode()}
+    return {
+        "ok": True,
+        "mock_mode": storage.mock_mode(),
+        "demo_mode": demo_loader.demo_mode(),
+    }
 
 
 @app.post("/run-pipeline")

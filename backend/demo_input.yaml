@@ -1,0 +1,109 @@
+# Demo input — fully offline mode (DEMO_MODE=true).
+#
+# Edit this file to control what the dashboard shows. The pipeline still runs
+# end-to-end: Step 4 (margin math) and Step 5 (PURSUE/MONITOR/AVOID rules)
+# are computed from the values you put here. No external API calls are made
+# (no pytrends, no CJ Dropshipping, no LLM, no Supabase).
+#
+# - `trends`: list of category names. Replaces Step 1 (Google Trends + LLM).
+# - `products`: list of products. Replaces Step 3 (CJ product search).
+#   Each product's `category` must match one of the trends above.
+#   `cj_product_id` is the unique key — change it across runs to add new rows,
+#   keep it the same to overwrite an existing row.
+#
+# Recommendation rules (applied in Step 5, no LLM):
+#   PURSUE  — margin_pct > 20  AND  supplier_risk_score > 70
+#   AVOID   — margin_pct < 10  OR   supplier_risk_score < 40
+#   MONITOR — anything in between
+#
+# You can override the verdict for a specific product by adding a
+# `recommendation:` (PURSUE | MONITOR | AVOID) and optional `explanation:`.
+
+trends:
+  - ergonomic lumbar cushion
+  - portable blender
+  - pet grooming glove
+  - magnetic phone mount
+  - posture corrector brace
+
+products:
+  - title: "Memory Foam Ergonomic Lumbar Cushion"
+    category: ergonomic lumbar cushion
+    cj_product_id: DEMO-10001
+    image_url: "https://placehold.co/200x200?text=Lumbar"
+    supply_price: 8.50
+    sell_price: 29.99
+    shipping_cost: 4.20
+    supplier_rating: 4.8
+    sold_count: 1540
+    stock: 420
+
+  - title: "USB-Rechargeable Portable Blender 400ml"
+    category: portable blender
+    cj_product_id: DEMO-10002
+    image_url: "https://placehold.co/200x200?text=Blender"
+    supply_price: 12.00
+    sell_price: 24.99
+    shipping_cost: 5.80
+    supplier_rating: 4.6
+    sold_count: 620
+    stock: 180
+
+  - title: "Silicone Pet Grooming Glove (Pair)"
+    category: pet grooming glove
+    cj_product_id: DEMO-10003
+    image_url: "https://placehold.co/200x200?text=Pet+Glove"
+    supply_price: 2.10
+    sell_price: 12.99
+    shipping_cost: 2.50
+    supplier_rating: 4.9
+    sold_count: 2400
+    stock: 800
+
+  - title: "Magnetic Car Phone Mount (Dashboard)"
+    category: magnetic phone mount
+    cj_product_id: DEMO-10004
+    image_url: "https://placehold.co/200x200?text=Mount"
+    supply_price: 3.40
+    sell_price: 19.99
+    shipping_cost: 2.00
+    supplier_rating: 4.7
+    sold_count: 1120
+    stock: 560
+
+  - title: "Adjustable Posture Corrector Brace"
+    category: posture corrector brace
+    cj_product_id: DEMO-10005
+    image_url: "https://placehold.co/200x200?text=Posture"
+    supply_price: 6.40
+    sell_price: 22.99
+    shipping_cost: 3.60
+    supplier_rating: 4.7
+    sold_count: 1320
+    stock: 290
+
+  # Example of a product the rules will flag AVOID (low margin):
+  - title: "Insulated Lunch Bag with Shoulder Strap"
+    category: portable blender
+    cj_product_id: DEMO-10006
+    image_url: "https://placehold.co/200x200?text=Lunch"
+    supply_price: 7.80
+    sell_price: 11.99
+    shipping_cost: 3.40
+    supplier_rating: 4.2
+    sold_count: 80
+    stock: 40
+
+  # Example of a manual override — force the recommendation regardless of rules:
+  # - title: "Hand-Picked Demo Product"
+  #   category: ergonomic lumbar cushion
+  #   cj_product_id: DEMO-99999
+  #   image_url: "https://placehold.co/200x200?text=Demo"
+  #   supply_price: 5.00
+  #   sell_price: 25.00
+  #   shipping_cost: 2.00
+  #   supplier_rating: 4.5
+  #   sold_count: 500
+  #   stock: 200
+  #   recommendation: PURSUE
+  #   explanation: "Manual override for the demo narration."

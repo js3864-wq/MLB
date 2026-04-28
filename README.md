@@ -13,6 +13,37 @@ and presenting ranked recommendations on a Next.js dashboard.
 /supabase   Postgres schema
 ```
 
+## Demo mode (fully offline, no API keys)
+
+For a presentation / recording where you want full control over what the
+dashboard shows and zero external calls:
+
+```bash
+cd backend
+cp .env.example .env
+# in .env, set:
+# DEMO_MODE=true
+pip install -r requirements.txt
+uvicorn backend.main:app --reload
+curl -X POST http://localhost:8000/run-pipeline
+```
+
+Then in another terminal:
+
+```bash
+cd frontend
+cp .env.local.example .env.local
+# leave NEXT_PUBLIC_USE_MOCK=false so the FE talks to the backend
+npm install && npm run dev
+```
+
+**Edit `backend/demo_input.yaml`** to control the trends and products that
+appear on the dashboard. The pipeline still runs Step 4 (margin math) and
+Step 5 (PURSUE/MONITOR/AVOID rules) on whatever you put there — no pytrends,
+no CJ, no LLM, no Supabase. You can also force a verdict per product by
+adding `recommendation:` and `explanation:` fields. Re-run the pipeline
+(`POST /run-pipeline`) after each edit.
+
 ## Quick start
 
 ### 1. Verify the CJ API first

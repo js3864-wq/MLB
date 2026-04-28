@@ -16,6 +16,9 @@ MOCK_DIR = Path(__file__).resolve().parent.parent / "mock_data"
 
 
 def mock_mode() -> bool:
+    # DEMO_MODE implies offline storage too — no Supabase keys required.
+    if os.environ.get("DEMO_MODE", "false").lower() == "true":
+        return True
     return os.environ.get("MOCK_MODE", "false").lower() == "true"
 
 
@@ -132,6 +135,12 @@ def _load_mock(name: str) -> list[dict[str, Any]]:
 def _save_mock(name: str, rows: list[dict[str, Any]]) -> None:
     path = MOCK_DIR / name
     path.write_text(json.dumps(rows, indent=2))
+
+
+def clear_mock_data() -> None:
+    """Reset the mock JSON files. Used by DEMO_MODE so each run starts clean."""
+    _save_mock("trend_categories.json", [])
+    _save_mock("products.json", [])
 
 
 def _mock_upsert_categories(names: list[str], run_date: date) -> list[dict[str, Any]]:

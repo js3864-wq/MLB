@@ -106,3 +106,62 @@ def recommend_all(
             merged = {**p, **r}
             results.append(merged)
     return results
+
+
+# --- Offline / DEMO_MODE: rules-based recommendation, no LLM ---------
+
+def _verdict_from_rules(margin_pct: float, risk: float) -> str:
+    if margin_pct > 20 and risk > 70:
+        return "PURSUE"
+    if margin_pct < 10 or risk < 40:
+        return "AVOID"
+    return "MONITOR"
+
+
+def _explain(verdict: str, margin_pct: float, risk: float, sold: int) -> str:
+    if verdict == "PURSUE":
+        return (
+            f"Healthy {margin_pct}% margin combined with a {risk}/100 supplier risk "
+            f"score and {sold} fulfilled orders — strong candidate."
+        )
+    if verdict == "AVOID":
+        if margin_pct < 10:
+            return (
+                f"Margin of {margin_pct}% leaves no room for ad spend or returns; "
+                f"not viable at this price point."
+            )
+        return (
+            f"Supplier risk score of {risk}/100 is below our reliability threshold "
+            f"despite a {margin_pct}% margin — sourcing is the blocker."
+        )
+    if margin_pct <= 20:
+        return (
+            f"Margin of {margin_pct}% is borderline; revisit if supply price drops "
+            f"or sell price holds at scale."
+        )
+    return (
+        f"Solid {margin_pct}% margin but supplier risk of {risk}/100 sits just "
+        f"under the PURSUE bar — watch for volume to grow."
+    )
+
+
+def recommend_rule_based(products: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Compute PURSUE/MONITOR/AVOID + explanation from the rules. No API calls.
+
+    Each input dict may carry `recommendation` and/or `explanation` to override
+    the computed values (used by demo_input.yaml's manual override).
+    """
+    out: list[dict[str, Any]] = []
+    for p in products:
+        margin_pct = float(p.get("margin_pct") or 0)
+        risk = float(p.get("supplier_risk_score") or 0)
+        sold = int(p.get("sold_count") or 0)
+        override = p.get("recommendation")
+        verdict = (
+            str(override).upper()
+            if override in {"PURSUE", "MONITOR", "AVOID"}
+            else _verdict_from_rules(margin_pct, risk)
+        )
+        explanation = p.get("explanation") or _explain(verdict, margin_pct, risk, sold)
+        out.append({**p, "recommendation": verdict, "explanation": explanation})
+    return out
