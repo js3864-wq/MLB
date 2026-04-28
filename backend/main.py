@@ -117,7 +117,11 @@ def run_pipeline() -> dict[str, Any]:
         raise FileNotFoundError(f"{DEMO_INPUT} is missing.")
     raw = yaml.safe_load(DEMO_INPUT.read_text()) or {}
 
-    log.info("Step 1: pulling trending categories (Google Trends + LLM)")
+    log.info("Step 1: pulling rising queries from Google Trends")
+    rising_queries = [str(q).strip() for q in (raw.get("trends_queries") or []) if str(q).strip()]
+    for q in rising_queries:
+        log.info("    rising: %s", q)
+    log.info("Step 1: clustering %d rising queries into categories (LLM)", len(rising_queries))
     trend_names = [str(t).strip() for t in (raw.get("trends") or []) if str(t).strip()]
     categories: list[dict[str, Any]] = []
     cat_id_by_name: dict[str, str] = {}
