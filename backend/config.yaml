@@ -4,8 +4,8 @@ supplier_filters:
   min_stock: 50
 
 pipeline:
-  trend_category_count: 10
-  products_per_category: 20
+  trend_category_count: 5
+  products_per_category: 8
   # Step 5: batch up to N products per Claude call to save tokens.
   recommendation_batch_size: 10
 

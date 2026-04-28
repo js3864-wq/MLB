@@ -5,7 +5,7 @@ import json
 import os
 from typing import Any
 
-CLAUDE_MODEL = "claude-sonnet-4-5"
+AZURE_DEPLOYMENT = os.environ.get("AZURE_FOUNDRY_DEPLOYMENT", "gpt-4o-mini")
 
 SYSTEM_PROMPT = (
     "You are a dropshipping analyst. For each product you receive, output a JSON "
@@ -55,9 +55,12 @@ def recommend_batch(products: list[dict[str, Any]]) -> list[dict[str, str]]:
     """Call Claude once for up to ~10 products; return a recommendation per item, in order."""
     if not products:
         return []
-    from anthropic import Anthropic  # lazy import
+    from openai import OpenAI  # lazy import
 
-    client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = OpenAI(
+        base_url=os.environ["AZURE_FOUNDRY_BASE_URL"],
+        api_key=os.environ["AZURE_FOUNDRY_API_KEY"],
+    )
     numbered = "\n\n".join(
         f"Product {i + 1}:\n{_format_product(p)}" for i, p in enumerate(products)
     )
@@ -65,13 +68,15 @@ def recommend_batch(products: list[dict[str, Any]]) -> list[dict[str, str]]:
         f"Analyze these {len(products)} products. Respond with a JSON array of "
         f"{len(products)} objects in the same order.\n\n{numbered}"
     )
-    resp = client.messages.create(
-        model=CLAUDE_MODEL,
+    resp = client.chat.completions.create(
+        model=AZURE_DEPLOYMENT,
         max_tokens=2048,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": user_content}],
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": user_content},
+        ],
     )
-    text = "".join(b.text for b in resp.content if b.type == "text")
+    text = resp.choices[0].message.content or ""
     parsed = _extract_json(text)
     if isinstance(parsed, dict):
         parsed = [parsed]

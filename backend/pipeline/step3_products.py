@@ -11,6 +11,7 @@ variant) is our cost.
 """
 from __future__ import annotations
 
+import asyncio
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
@@ -108,6 +109,7 @@ async def find_products_for_category(
         pid = str(raw.get("pid") or raw.get("productId") or "")
         if not pid:
             continue
+        await asyncio.sleep(0.5)
         shipping = await client.freight_estimate(pid) or 0.0
         product = normalize_product(raw, shipping_cost=shipping)
         if passes_filters(product, filters):

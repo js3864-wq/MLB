@@ -32,11 +32,13 @@ def _client():
 def upsert_trend_categories(names: list[str], run_date: date) -> list[dict[str, Any]]:
     if mock_mode():
         return _mock_upsert_categories(names, run_date)
+    if not names:
+        return []
     client = _client()
     rows = [{"name": n, "run_date": run_date.isoformat()} for n in names]
     resp = (
         client.table("trend_categories")
-        .upsert(rows, on_conflict="name,run_date")
+        .upsert(rows)
         .execute()
     )
     return resp.data or []
@@ -45,6 +47,8 @@ def upsert_trend_categories(names: list[str], run_date: date) -> list[dict[str, 
 def upsert_products(products: list[dict[str, Any]], run_date: date) -> list[dict[str, Any]]:
     if mock_mode():
         return _mock_upsert_products(products, run_date)
+    if not products:
+        return []
     client = _client()
     payload = []
     for p in products:
@@ -71,7 +75,7 @@ def upsert_products(products: list[dict[str, Any]], run_date: date) -> list[dict
         )
     resp = (
         client.table("products")
-        .upsert(payload, on_conflict="cj_product_id,run_date")
+        .upsert(payload)
         .execute()
     )
     return resp.data or []

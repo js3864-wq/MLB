@@ -9,7 +9,7 @@ import json
 import os
 from typing import Iterable
 
-CLAUDE_MODEL = "claude-sonnet-4-5"
+AZURE_DEPLOYMENT = os.environ.get("AZURE_FOUNDRY_DEPLOYMENT", "gpt-4o-mini")
 
 # Seed keywords used to pull rising related queries. We intentionally keep
 # this broad — the Claude call is responsible for narrowing to specific,
@@ -59,16 +59,19 @@ def fetch_rising_queries(
 
 
 def categories_from_queries(queries: list[str]) -> list[str]:
-    from anthropic import Anthropic  # lazy import
+    from openai import OpenAI  # lazy import
 
-    client = Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    client = OpenAI(
+        base_url=os.environ["AZURE_FOUNDRY_BASE_URL"],
+        api_key=os.environ["AZURE_FOUNDRY_API_KEY"],
+    )
     user_content = CATEGORY_PROMPT + "\n\nQueries:\n" + "\n".join(f"- {q}" for q in queries)
-    resp = client.messages.create(
-        model=CLAUDE_MODEL,
+    resp = client.chat.completions.create(
+        model=AZURE_DEPLOYMENT,
         max_tokens=1024,
         messages=[{"role": "user", "content": user_content}],
     )
-    text = "".join(block.text for block in resp.content if block.type == "text").strip()
+    text = (resp.choices[0].message.content or "").strip()
     # Claude may wrap JSON in prose despite the instruction; grab the array.
     start = text.find("[")
     end = text.rfind("]")

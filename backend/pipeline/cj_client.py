@@ -88,7 +88,7 @@ class CJClient:
                 "/logistic/freightCalculate",
                 {"productId": product_id, "countryCode": country, "quantity": quantity},
             )
-        except RuntimeError:
+        except (RuntimeError, httpx.HTTPStatusError):
             return None
         options = data if isinstance(data, list) else data.get("list", [])
         if not options:
