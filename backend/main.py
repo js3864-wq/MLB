@@ -144,6 +144,7 @@ def run_pipeline() -> dict[str, Any]:
             "category_id": cat_id_by_name[category],
             "category_name": category,
             "cj_product_id": str(item["cj_product_id"]),
+            "source_url": str(item.get("source_url", "")),
             "title": str(item.get("title", "")),
             "image_url": str(item.get("image_url", "")),
             "supply_price": float(item.get("supply_price", 0)),

@@ -47,7 +47,9 @@ export default function ProductDetail() {
   if (error) return <p className="text-red-600">Failed to load product.</p>;
   if (!product) return <p className="text-slate-500">Not found.</p>;
 
-  const cjUrl = `https://www.cjdropshipping.com/product/detail.html?pid=${product.cj_product_id}`;
+  const cjUrl =
+    product.source_url ||
+    `https://www.cjdropshipping.com/product/detail.html?pid=${product.cj_product_id}`;
 
   return (
     <div className="space-y-6">
