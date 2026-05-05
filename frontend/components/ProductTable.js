@@ -2,24 +2,33 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import RecommendationBadge from "./RecommendationBadge";
 
-const FILTERS = ["ALL", "PURSUE", "MONITOR", "AVOID"];
+const REC_FILTERS = ["ALL", "PURSUE", "MONITOR", "AVOID"];
 
-export default function ProductTable({ products }) {
+export default function ProductTable({ products, initialCategory = "ALL" }) {
   const [filter, setFilter] = useState("ALL");
+  const [categoryFilter, setCategoryFilter] = useState(initialCategory);
   const [sortDesc, setSortDesc] = useState(true);
 
+  const categories = useMemo(() => {
+    const names = [...new Set(products.map((p) => p.category_name).filter(Boolean))].sort();
+    return ["ALL", ...names];
+  }, [products]);
+
   const rows = useMemo(() => {
-    const filtered = filter === "ALL" ? products : products.filter((p) => p.recommendation === filter);
+    let filtered = filter === "ALL" ? products : products.filter((p) => p.recommendation === filter);
+    if (categoryFilter !== "ALL") {
+      filtered = filtered.filter((p) => p.category_name === categoryFilter);
+    }
     return [...filtered].sort((a, b) =>
       sortDesc ? b.margin_pct - a.margin_pct : a.margin_pct - b.margin_pct
     );
-  }, [products, filter, sortDesc]);
+  }, [products, filter, categoryFilter, sortDesc]);
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-2">
-        <span className="text-sm text-slate-600">Filter:</span>
-        {FILTERS.map((f) => (
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-sm text-slate-600">Recommendation:</span>
+        {REC_FILTERS.map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
@@ -32,6 +41,20 @@ export default function ProductTable({ products }) {
             {f}
           </button>
         ))}
+
+        <span className="text-sm text-slate-600 ml-2">Category:</span>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="px-2 py-1 text-xs rounded border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 capitalize"
+        >
+          {categories.map((c) => (
+            <option key={c} value={c} className="capitalize">
+              {c}
+            </option>
+          ))}
+        </select>
+
         <button
           onClick={() => setSortDesc((v) => !v)}
           className="ml-auto px-2 py-1 text-xs rounded border bg-white text-slate-700 border-slate-300 hover:bg-slate-100"

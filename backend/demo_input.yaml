@@ -35,68 +35,127 @@ trends:
   - posture corrector brace
 
 products:
-  - title: "Memory Foam Ergonomic Lumbar Cushion"
+  # --- ergonomic lumbar cushion --------------------------------------
+  - title: "Car Headrest Lumbar Cushion Neck Pillow"
     category: ergonomic lumbar cushion
-    cj_product_id: "1000001"
-    image_url: "https://placehold.co/200x200?text=Lumbar"
-    supply_price: 8.50
-    sell_price: 29.99
-    shipping_cost: 4.20
-    supplier_rating: 4.8
-    sold_count: 1540
-    stock: 420
+    cj_product_id: "1381080312859201536"
+    source_url: "https://cjdropshipping.com/product/car-headrest-lumbar-cushion-neck-pillow-pillow-p-1381080312859201536.html"
+    image_url: "https://placehold.co/200x200?text=Lumbar+Neck"
+    supply_price: 7.20
+    sell_price: 26.99
+    shipping_cost: 3.80
+    supplier_rating: 4.7
+    sold_count: 1820
+    stock: 410
 
-  - title: "USB-Rechargeable Portable Blender 400ml"
+  - title: "Sofa Triangle Reading / Office Chair Backrest Lumbar Cushion"
+    category: ergonomic lumbar cushion
+    cj_product_id: "1702589253634502656"
+    source_url: "https://cjdropshipping.com/product/sofa-fluffy-cushion-luncheon-pillow-triangle-reading-cushion-bedside-soft-large-backrest-lumbar-cushion-office-chair-cushion-p-1702589253634502656.html"
+    image_url: "https://placehold.co/200x200?text=Triangle+Cushion"
+    supply_price: 11.40
+    sell_price: 32.99
+    shipping_cost: 6.20
+    supplier_rating: 4.5
+    sold_count: 740
+    stock: 230
+
+  # --- portable blender ----------------------------------------------
+  - title: "Portable Rechargeable Juice Blender — Handheld Smoothie Maker"
     category: portable blender
-    cj_product_id: "1000002"
-    image_url: "https://placehold.co/200x200?text=Blender"
-    supply_price: 12.00
-    sell_price: 24.99
-    shipping_cost: 5.80
+    cj_product_id: "2603100340021608800"
+    source_url: "https://cjdropshipping.com/product/portable-rechargeable-juice-blender-compact-handheld-electric-smoothie-maker-for-travel-office-home-p-2603100340021608800.html"
+    image_url: "https://placehold.co/200x200?text=Blender+Mini"
+    supply_price: 9.80
+    sell_price: 27.99
+    shipping_cost: 4.40
     supplier_rating: 4.6
-    sold_count: 620
-    stock: 180
+    sold_count: 1450
+    stock: 360
 
-  - title: "Silicone Pet Grooming Glove (Pair)"
+  - title: "1500ml USB-Rechargeable Portable Electric Juicer"
+    category: portable blender
+    cj_product_id: "1673571285395320832"
+    source_url: "https://cjdropshipping.com/product/new-arrival-summer-electric-juicer-portable-large-capacity-1500ml-juice-usb-rechargeable-electric-portable-blender-kitchen-gadgets-p-1673571285395320832.html"
+    image_url: "https://placehold.co/200x200?text=Blender+1500ml"
+    supply_price: 14.20
+    sell_price: 24.99
+    shipping_cost: 5.60
+    supplier_rating: 4.3
+    sold_count: 380
+    stock: 95
+
+  # --- pet grooming glove --------------------------------------------
+  - title: "Pet Bathing Brush — 2-in-1 Grooming Glove (Dog & Cat)"
     category: pet grooming glove
-    cj_product_id: "1000003"
+    cj_product_id: "1684500167061819392"
+    source_url: "https://cjdropshipping.com/product/pet-bathing-brush-2-in-1-grooming-glove-elegant-dog-grooming-tool-for-brushing-massaging-and-drying-pet-grooming-kit-for-dog-cat-2-sided-bathing-brush-cleaning-massage-glove-p-1684500167061819392.html"
     image_url: "https://placehold.co/200x200?text=Pet+Glove"
-    supply_price: 2.10
-    sell_price: 12.99
+    supply_price: 2.30
+    sell_price: 13.99
     shipping_cost: 2.50
     supplier_rating: 4.9
-    sold_count: 2400
-    stock: 800
+    sold_count: 2650
+    stock: 880
 
-  - title: "Magnetic Car Phone Mount (Dashboard)"
+  - title: "Pet Hair Cleaner Brush / Cat & Dog Grooming Comb"
+    category: pet grooming glove
+    cj_product_id: "1750484327697633280"
+    source_url: "https://cjdropshipping.com/product/cat-brushdog-brush-pet-hair-cleaner-brushpet-grooming-cat-dog-brushpet-comb-cat-comb-for-kitten-massage-removes-loose-fur-cat-grooming-brush-long-short-hair-cats-dogs-pet-brush-p-1750484327697633280.html"
+    image_url: "https://placehold.co/200x200?text=Pet+Comb"
+    supply_price: 1.90
+    sell_price: 9.99
+    shipping_cost: 2.20
+    supplier_rating: 4.4
+    sold_count: 510
+    stock: 160
+
+  # --- magnetic phone mount ------------------------------------------
+  - title: "Magnetic Car Phone Holder — Air Vent Mount"
     category: magnetic phone mount
-    cj_product_id: "1000004"
-    image_url: "https://placehold.co/200x200?text=Mount"
-    supply_price: 3.40
-    sell_price: 19.99
-    shipping_cost: 2.00
+    cj_product_id: "7BE889B5-A49D-40E1-9492-C811628BE18E"
+    source_url: "https://cjdropshipping.com/product/magnetic-car-phone-holder-air-vent-magnet-mount-smartphone-phone-holder-car-rotation-bracket-p-7BE889B5-A49D-40E1-9492-C811628BE18E.html"
+    image_url: "https://placehold.co/200x200?text=Air+Vent+Mount"
+    supply_price: 2.80
+    sell_price: 17.99
+    shipping_cost: 1.90
     supplier_rating: 4.7
-    sold_count: 1120
-    stock: 560
+    sold_count: 1340
+    stock: 540
 
-  - title: "Adjustable Posture Corrector Brace"
+  - title: "Magnetic Bendable Car Mount with 15W Wireless Charger"
+    category: magnetic phone mount
+    cj_product_id: "1676766755672305664"
+    source_url: "https://cjdropshipping.com/product/magnetic-bendable-car-mobile-phone-holder-wireless-charger-phone-holder-15w-car-dash-mount-compatible-with-phone-p-1676766755672305664.html"
+    image_url: "https://placehold.co/200x200?text=15W+Wireless"
+    supply_price: 12.50
+    sell_price: 34.99
+    shipping_cost: 5.40
+    supplier_rating: 4.5
+    sold_count: 690
+    stock: 220
+
+  # --- posture corrector brace ---------------------------------------
+  - title: "Smart Posture Corrector for Kids — Real-Time Slouch Reminder"
     category: posture corrector brace
-    cj_product_id: "1000005"
-    image_url: "https://placehold.co/200x200?text=Posture"
-    supply_price: 6.40
-    sell_price: 22.99
-    shipping_cost: 3.60
-    supplier_rating: 4.7
-    sold_count: 1320
-    stock: 290
-
-  - title: "Insulated Lunch Bag with Shoulder Strap"
-    category: portable blender
-    cj_product_id: "1000006"
-    image_url: "https://placehold.co/200x200?text=Lunch"
-    supply_price: 7.80
-    sell_price: 11.99
+    cj_product_id: "1596410195461287936"
+    source_url: "https://cjdropshipping.com/product/smart-posture-corrector-device-specially-designed-for-kids-children--real-time-slouch-reminder-p-1596410195461287936.html"
+    image_url: "https://placehold.co/200x200?text=Posture+Kids"
+    supply_price: 6.90
+    sell_price: 24.99
     shipping_cost: 3.40
-    supplier_rating: 4.2
-    sold_count: 80
-    stock: 40
+    supplier_rating: 4.7
+    sold_count: 1180
+    stock: 310
+
+  - title: "Smart Posture Corrector — Slouch Reminder (Variant)"
+    category: posture corrector brace
+    cj_product_id: "1596410195461287936-v2"
+    source_url: "https://cjdropshipping.com/product/smart-posture-corrector-device-specially-designed-for-kids-children--real-time-slouch-reminder-p-1596410195461287936.html"
+    image_url: "https://placehold.co/200x200?text=Posture+V2"
+    supply_price: 8.10
+    sell_price: 19.99
+    shipping_cost: 3.60
+    supplier_rating: 4.1
+    sold_count: 220
+    stock: 75

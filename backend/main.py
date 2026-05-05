@@ -142,6 +142,7 @@ def run_pipeline() -> dict[str, Any]:
         base = {
             "id": str(uuid.uuid4()),
             "category_id": cat_id_by_name[category],
+            "category_name": category,
             "cj_product_id": str(item["cj_product_id"]),
             "title": str(item.get("title", "")),
             "image_url": str(item.get("image_url", "")),
